@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="../dist/toccmap.css" media="screen,projection"/>
+		<style>
+			.map {
+				width: 400;
+				height: 300px;
+			}
+		</style>
+		 <!--[if lt IE 9]>
+            <script src="/shims/shims.min.js"></script>
+        <![endif]-->
+	</head>
+	<body>
+		<div id="osmmap" class="map"></div>
+		<p>Open Street Map, data via init method</p>
+		<div id="stamen" class="map"></div>
+		<p>Stamen Toner Tiles, data via attribute</p>
+		<script src="../dist/toccmap.js"></script>
+		<script>
+			toccmap(document.getElementById('osmmap'), {
+				geojson: {
+					type: 'FeatureCollection',
+					features: [
+						{
+							type: 'Feature',
+							properties: {
+								name: 'Toby'
+							},
+							geometry: { 
+								type: 'Point',
+								coordinates: [51.505, -0.09] 
+							}
+						}
+					]
+				}
+			});
+			toccmap(document.getElementById('stamen'), {
+				tileurl: 'http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png',
+				attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+			});
+		</script>
+	</body>
+</html>

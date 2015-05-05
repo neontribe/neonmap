@@ -1,0 +1,31 @@
+{
+  "name": "toccmap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify -r ./index.js --standalone toccmap -o ./dist/toccmap.js && npm run buildcss && npm run shimmy",
+    "buildcss": "cat ./css/*.css > ./dist/toccmap.css",
+    "shimmy": "awk 'FNR==1{print \"\"}1' ./node_modules/es5-shim/es5-shim.min.js ./node_modules/lt-ie-9/lt-ie-9.min.js ./node_modules/JSON2/json2.js > ./dist/shims.min.js",
+    "copyassets": "cp ./node_modules/leaflet/dist/leaflet.css ./css/leaflet.css && cp -r ./node_modules/leaflet/dist/images ./dist/images && cp ./node_modules/leaflet.markercluster/dist/*.css ./css/",
+    "watchcss": "catw ./css/*.css -o ./dist/toccmap.css -v",
+    "watchjs": "watchify -r ./index.js --standalone toccmap --debug --verbose -o ./dist/toccmap.js",
+    "develop": "npm run watchjs & npm run watchcss",
+    "postinstall": "npm run copyassets && npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "JSON2": "^0.1.0",
+    "es5-shim": "^4.1.1",
+    "leaflet": "^0.7.3",
+    "leaflet.markercluster": "^0.4.0",
+    "lt-ie-9": "^0.1.0"
+  },
+  "devDependencies": {
+    "browserify": "^10.1.0",
+    "catw": "^1.0.0",
+    "jquery": "^1.8.3",
+    "watchify": "^3.2.1"
+  }
+}
