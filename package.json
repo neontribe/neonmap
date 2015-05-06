@@ -10,7 +10,7 @@
     "copyassets": "cp ./node_modules/leaflet/dist/leaflet.css ./css/leaflet.css && cp -r ./node_modules/leaflet/dist/images ./dist/images && cp ./node_modules/leaflet.markercluster/dist/*.css ./css/",
     "watchcss": "catw ./css/*.css -o ./dist/toccmap.css -v",
     "watchjs": "watchify -r ./index.js --standalone toccmap --debug --verbose -o ./dist/toccmap.js",
-    "develop": "npm run watchjs & npm run watchcss",
+    "develop": "npm run watchjs && npm run watchcss",
     "postinstall": "npm run copyassets && npm run build"
   },
   "author": "",
