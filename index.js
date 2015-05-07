@@ -1,17 +1,16 @@
 var L = require('leaflet');
 require('leaflet.markercluster');
-L.Icon.Default.imagePath = '/images/';
 
 var ToccMap = L.Class.extend({
   options: {
     geojson: null,
-    tileurl: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    tile_url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-    minZoom: 5,
-    maxZoom: 18,
-    initialZoom: 12,
-    imagePath: '../dist/images',
-    defaultCenter: [51.505, -0.09],
+    min_zoom: 5,
+    max_zoom: 18,
+    initial_zoom: 12,
+    image_path: '../dist/images',
+    center: [51.505, -0.09],
     clustering: {
       showCoverageOnHover: false
     }
@@ -29,17 +28,16 @@ var ToccMap = L.Class.extend({
 
   initialize: function (el, options) {
     //programmatic options trump data-attributes
-    L.setOptions(this, this.getAttributeData(el));
-    L.setOptions(this, options);
-      debugger;
-    L.Icon.Default.imagePath = this.options.imagePath;
+    L.setOptions(this, L.extend(this.getAttributeData(el), options));
+
+    L.Icon.Default.imagePath = this.options.image_path;
 
     this.map = L.map(el);
-    this.map.setView(this.options.defaultCenter, this.options.initialZoom);
+    this.map.setView(this.options.center, this.options.initial_zoom);
   
-    this.tiles = L.tileLayer(this.options.tileurl, {
-      minZoom: this.options.minZoom, 
-      maxZoom: this.options.maxZoom, 
+    this.tiles = L.tileLayer(this.options.tile_url, {
+      minZoom: this.options.min_zoom, 
+      maxZoom: this.options.max_zoom, 
       attribution: this.options.attribution
     });
 
@@ -53,7 +51,7 @@ var ToccMap = L.Class.extend({
       this.geoJsonLayer = L.geoJson(this.options.geojson, {});
       this.markers.addLayer(this.geoJsonLayer);
       this.map.addLayer(this.markers);
-      this.map.fitBounds(this.markers.getBounds());
+      this.map.fitBounds(this.markers.getBounds(), {maxZoom: this.options.initial_zoom});
     }
   }
 });

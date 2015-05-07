@@ -20,6 +20,7 @@
 		<div id="dat-tribute" class="map"
 			data-geojson='{"id": "205634","type": "Feature","geometry": {"type": "Point","coordinates": [-2.986232, 50.803040]},"properties": {"title": "Battleford Cottage","nid": "999","uri": "/Cottaging/sites/ly/super-control-property/battleford-cottage","image": {"uri": "http://localhost/Cottaging/sites/ly/sites/default/files/styles/neonsc_carousel_thumb/public/sc_ra_images/205634/main/1858886.jpg?itok=Uvvq9puo","alt": "test","title": null,"width": 136,"height": 88}}}'
 			data-attribution="Just To Show We Can"
+			data-initial_zoom="14"
 		></div>
 		<p>Open Street Map, geojson single feature populated from data attribute</p>
 		<script src="../dist/toccmap.js"></script>
@@ -53,7 +54,7 @@
 			});
 
 			$('#stamen').toccmap({
-				tileurl: 'http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png',
+				tile_url: 'http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png',
 				attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 				geojson: {
 				    "type": "FeatureCollection",
