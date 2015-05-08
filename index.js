@@ -1,4 +1,5 @@
 var L = require('leaflet');
+var M = require('mustache');
 require('leaflet.markercluster');
 
 var ToccMap = L.Class.extend({
@@ -13,6 +14,12 @@ var ToccMap = L.Class.extend({
     center: [51.505, -0.09],
     clustering: {
       showCoverageOnHover: false
+    },
+    popups: {
+      template: '<h3>{{title}}</h3>{{image.alt}}',
+      options: {
+        className: 'toccmap-popup'
+      }
     }
   },
 
@@ -27,6 +34,7 @@ var ToccMap = L.Class.extend({
   },
 
   initialize: function (el, options) {
+    var self = this;
     //programmatic options trump data-attributes
     L.setOptions(this, L.extend(this.getAttributeData(el), options));
 
@@ -48,7 +56,11 @@ var ToccMap = L.Class.extend({
         this.options.geojson = JSON.parse(this.options.geojson);
       }
       this.markers = L.markerClusterGroup(this.options.clustering);
-      this.geoJsonLayer = L.geoJson(this.options.geojson, {});
+      this.geoJsonLayer = L.geoJson(this.options.geojson, {
+        onEachFeature: function(feature, layer){
+          layer.bindPopup(M.render(self.options.popups.template, feature.properties), self.options.popups.options);
+        }
+      });
       this.markers.addLayer(this.geoJsonLayer);
       this.map.addLayer(this.markers);
       this.map.fitBounds(this.markers.getBounds(), {maxZoom: this.options.initial_zoom});
@@ -56,9 +68,15 @@ var ToccMap = L.Class.extend({
   }
 });
 
-module.exports = function(el, options){
+var toccmap = function(el, options){
   return new ToccMap(el, options);
 };
+
+// Expose our libraries quietly for the convenience of others
+toccmap.Leaflet = L;
+toccmap.Mustache = M;
+
+module.exports = toccmap;
 
 /**
  * Produce a jQuery plugin facade if we find jQuery in the env
