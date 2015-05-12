@@ -41,7 +41,7 @@ Options in the ```clustering``` property of the configuration are passed to leaf
 
 Popup options
 -------------
-Most options in the ```popups``` configuration are passed through to Leaflet's bindPopup method http://leafletjs.com/reference.html#popup, the exception to this is the ```template``` string, which should be a (Mustache)[https://github.com/janl/mustache.js/] template, which will be supplied with the geoJson Feature's properties at render-time.
+Most options in the ```popups``` configuration are passed through to Leaflet's bindPopup method http://leafletjs.com/reference.html#popup, the exception to this is the ```template``` string, which should be a [Mustache](https://github.com/janl/mustache.js) template, which will be supplied with the geoJson Feature's properties at render-time.
 
 developing
 ==========
