@@ -1,8 +1,8 @@
 neonmap
-#######
+=======
 
 
-If you're looking to use this to draw a map, with clustering, from geoJSON data everything you need is in the /dist directory. You'll find the examples in /demo helpful. There's an example of what geoJson should look like at ./demo/fixture.json.
+If you're looking to use this to draw a map, with clustering, from geoJSON data, everything you need is in the /dist directory. You'll find the examples in /demo helpful. There's an example of what geoJson should look like at ./demo/fixture.json.
 
 usage
 =====
