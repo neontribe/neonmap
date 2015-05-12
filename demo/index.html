@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="../dist/toccmap.css" media="screen,projection"/>
+		<link rel="stylesheet" href="../dist/neonmap.css" media="screen,projection"/>
 		<style>
 			.map {
 				width: 400;
@@ -23,9 +23,9 @@
 			data-initial_zoom="14"
 		></div>
 		<p>Open Street Map, geojson single feature populated from data attribute</p>
-		<script src="../dist/toccmap.js"></script>
+		<script src="../dist/neonmap.js"></script>
 		<script>
-			toccmap(document.getElementById('osmmap'), {
+			neonmap(document.getElementById('osmmap'), {
 				geojson: {
 				    "type": "FeatureCollection",
 				    "features": [
@@ -53,7 +53,7 @@
 				}
 			});
 
-			$('#stamen').toccmap({
+			$('#stamen').neonmap({
 				tile_url: 'http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png',
 				attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 				geojson: {
@@ -163,7 +163,7 @@
 				}
 			});
 
-			$('#dat-tribute').toccmap();
+			$('#dat-tribute').neonmap();
 		</script>
 	</body>
 </html>

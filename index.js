@@ -2,7 +2,7 @@ var L = require('leaflet');
 var M = require('mustache');
 require('leaflet.markercluster');
 
-var ToccMap = L.Class.extend({
+var NeonMap = L.Class.extend({
   options: {
     geojson: null,
     tile_url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -18,7 +18,7 @@ var ToccMap = L.Class.extend({
     popups: {
       template: '<h3>{{title}}</h3>{{image.alt}}',
       options: {
-        className: 'toccmap-popup'
+        className: 'neonmap-popup'
       }
     }
   },
@@ -68,24 +68,24 @@ var ToccMap = L.Class.extend({
   }
 });
 
-var toccmap = function(el, options){
-  return new ToccMap(el, options);
+var neonmap = function(el, options){
+  return new NeonMap(el, options);
 };
 
 // Expose our libraries quietly for the convenience of others
-toccmap.Leaflet = L;
-toccmap.Mustache = M;
+neonmap.Leaflet = L;
+neonmap.Mustache = M;
 
-module.exports = toccmap;
+module.exports = neonmap;
 
 /**
  * Produce a jQuery plugin facade if we find jQuery in the env
  */
 if (window.jQuery) {
   (function( $ ) {
-    $.fn.toccmap = function(options) {
+    $.fn.neonmap = function(options) {
       this.each(function() {
-        return toccmap(this, options);
+        return neonmap(this, options);
       });
       return this;
     };
