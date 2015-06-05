@@ -1,10 +1,13 @@
 var L = require('leaflet');
 var M = require('mustache');
 require('leaflet.markercluster');
+require('leaflet-loading');
+var qwest = require('qwest');
 
 var NeonMap = L.Class.extend({
   options: {
     geojson: null,
+    geojsonurl: null,
     tile_url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
     min_zoom: 5,
@@ -40,7 +43,7 @@ var NeonMap = L.Class.extend({
 
     L.Icon.Default.imagePath = this.options.image_path;
 
-    this.map = L.map(el);
+    this.map = L.map(el, {loadingControl: true});
     this.map.setView(this.options.center, this.options.initial_zoom);
   
     this.tiles = L.tileLayer(this.options.tile_url, {
@@ -51,19 +54,38 @@ var NeonMap = L.Class.extend({
 
     this.map.addLayer(this.tiles);
 
-    if (this.options.geojson) {
-      if (typeof this.options.geojson === "string") {
-        this.options.geojson = JSON.parse(this.options.geojson);
-      }
+    if (this.options.geojson || this.options.geojsonurl) {
       this.markers = L.markerClusterGroup(this.options.clustering);
-      this.geoJsonLayer = L.geoJson(this.options.geojson, {
-        onEachFeature: function(feature, layer){
-          layer.bindPopup(M.render(self.options.popups.template, feature.properties), self.options.popups.options);
-        }
-      });
-      this.markers.addLayer(this.geoJsonLayer);
       this.map.addLayer(this.markers);
-      this.map.fitBounds(this.markers.getBounds(), {maxZoom: this.options.initial_zoom});
+      if (this.options.geojson) {
+        if (typeof this.options.geojson === "string") {
+          this.options.geojson = JSON.parse(this.options.geojson);
+        }
+        this.geoJsonLayer = L.geoJson(this.options.geojson, {
+          onEachFeature: function(feature, layer){
+            layer.bindPopup(M.render(self.options.popups.template, feature.properties), self.options.popups.options);
+          }
+        });
+        this.markers.addLayer(this.geoJsonLayer);
+        this.map.fitBounds(this.markers.getBounds(), {maxZoom: this.options.initial_zoom});
+      }
+      
+      if (this.options.geojsonurl) {
+        this.map.fire('dataloading');
+        qwest.get(this.options.geojsonurl, null, {responseType: 'json'})
+          .then(function(res) {
+            self.geoJsonUrlLayer = L.geoJson(res, {
+              onEachFeature: function(feature, layer){
+                layer.bindPopup(M.render(self.options.popups.template, feature.properties), self.options.popups.options);
+              }
+            });
+            self.markers.addLayer(self.geoJsonUrlLayer);
+            self.map.fitBounds(self.markers.getBounds(), {maxZoom: self.options.initial_zoom});
+          })
+          .complete(function(){
+            self.map.fire('dataload');
+          });
+      }
     }
   }
 });
