@@ -37,13 +37,17 @@ var NeonMap = L.Class.extend({
   },
 
   initialize: function (el, options) {
+    if (el.neonmap) {
+      // Cleanup ready to reinitialize
+      el.neonmap.remove();
+    }
     var self = this;
     //programmatic options trump data-attributes
     L.setOptions(this, L.extend(this.getAttributeData(el), options));
 
     L.Icon.Default.imagePath = this.options.image_path;
 
-    this.map = L.map(el, {loadingControl: true});
+    el.neonmap = this.map = L.map(el, {loadingControl: true});
     this.map.setView(this.options.center, this.options.initial_zoom);
   
     this.tiles = L.tileLayer(this.options.tile_url, {
